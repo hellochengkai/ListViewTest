@@ -29,11 +29,27 @@ public class MyAdapter extends ArrayAdapter<MyData> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         MyData myData = getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
-        ImageView imageView = view.findViewById(R.id.image);
-        TextView textView = view.findViewById(R.id.text);
+
+        View view= null;
+        ViewHolder viewHolder = null;
+        if(convertView == null){
+            view = LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
+            viewHolder = new ViewHolder();
+            viewHolder.imageView = view.findViewById(R.id.image);
+            viewHolder.textView = view.findViewById(R.id.text);
+            view.setTag(viewHolder);
+        }else {
+            view = convertView;
+            viewHolder = (ViewHolder) view.getTag();
+        }
+        ImageView imageView = viewHolder.imageView;
+        TextView textView = viewHolder.textView;
         imageView.setImageResource(myData.id);
         textView.setText(myData.text);
         return view;
+    }
+    class ViewHolder{
+        ImageView imageView;
+        TextView textView;
     }
 }
